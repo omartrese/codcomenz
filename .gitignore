@@ -1,0 +1,24 @@
+# Compilación de Rust
+/target/
+
+# Archivos de depuración
+**/*.rs.bk
+*.rlib
+*.rmeta
+*.d
+*.lock  # Si usas Cargo.lock, normalmente sí lo quieres subir, pero opcional
+
+# Archivos de IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos generados por documentación
+/doc/
