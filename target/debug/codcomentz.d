@@ -1,1 +1,1 @@
-/home/omartrese/OdyDev/experiments/codcomentz/target/debug/codcomentz: /home/omartrese/OdyDev/experiments/codcomentz/src/cli.rs /home/omartrese/OdyDev/experiments/codcomentz/src/main.rs
+/home/omartrese/OdyDev/active/codcomentz/target/debug/codcomentz: /home/omartrese/OdyDev/active/codcomentz/src/cli.rs /home/omartrese/OdyDev/active/codcomentz/src/main.rs

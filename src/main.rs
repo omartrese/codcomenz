@@ -1,51 +1,54 @@
-use std::io;
-
-use crate::cli::{new_astro, new_nodejs, new_react, new_svelte};
+use dialoguer::{Select, theme::ColorfulTheme};
 mod cli;
 
 fn main() {
-    let options = [
-        "1. Nodejs Vacío",
-        "2. Proyecto de react",
-        "3. Proyecto de svelte",
-        "4. Proyecto de Astro",
+    let options = &[
+        "Nodejs template",
+        "React Template",
+        "Svelte template",
+        "Astro template",
     ];
 
     println!("\n\nBienvenido a tu starter de proyectos de CLI favorito!!!");
-    for x in options {
-        println!("{x}");
-    }
+    // for x in options {
+    //     println!("{x}");
+    // }
 
-    let option_idx: u8 = loop {
-        let mut input_line = String::new();
+    // let option_idx: u8 = loop {
+    //     let mut input_line = String::new();
 
-        io::stdin()
-            .read_line(&mut input_line)
-            .expect("Failed to read line");
+    //     io::stdin()
+    //         .read_line(&mut input_line)
+    //         .expect("Failed to read line");
 
-        match input_line.trim().parse::<u8>() {
-            // Ok(result) if (result >= 1 && result <= 5) break result,
-            Ok(result) if result <= 4 && result >= 1 => break result,
-            Ok(_) => println!("El número debe estar entre 1 y 4"),
-            Err(_) => {
-                println!("Introduce un número válido");
-                continue;
-            }
-        }
-    };
+    //     match input_line.trim().parse::<u8>() {
+    //         // Ok(result) if (result >= 1 && result <= 5) break result,
+    //         Ok(result) if result <= 4 && result >= 1 => break result,
+    //         Ok(_) => println!("El número debe estar entre 1 y 4"),
+    //         Err(_) => {
+    //             println!("Introduce un número válido");
+    //             continue;
+    //         }
+    //     }
+    // };
 
-    println!("the result is: {}", option_idx);
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("Pick a project to start")
+        .default(0)
+        .items(&options[..])
+        .interact()
+        .unwrap();
 
-    // cli::new_nodejs();
-    // cli::new_react();
-    // cli::new_svelte();
-    // cli::new_astro();
+    println!("Let's start our {}!", options[selection]);
 
+    let option_idx = selection as u8;
+
+    println!("{}", option_idx);
     match option_idx {
-        1 => new_nodejs(),
-        2 => new_react(),
-        3 => new_svelte(),
-        4 => new_astro(),
+        0 => cli::new_nodejs(),
+        1 => cli::new_react(),
+        2 => cli::new_svelte(),
+        3 => cli::new_astro(),
         _ => {
             panic!("wtf bro this ain't any shi");
         }
