@@ -1,4 +1,5 @@
-use dialoguer::{Select, theme::ColorfulTheme};
+use dialoguer::{Input, Select, theme::ColorfulTheme};
+use regex::Regex;
 mod cli;
 
 fn main() {
@@ -32,6 +33,21 @@ fn main() {
     //     }
     // };
 
+    let re = Regex::new(r"^[a-zA-Z0-9_-]*$").unwrap();
+
+    let mut proj_name: String = Input::with_theme(&ColorfulTheme::default())
+        .with_prompt("Introduce the name of your new big project!")
+        .allow_empty(true)
+        .validate_with(|input: &String| -> Result<(), &str> {
+            if input.trim().is_empty() || re.is_match(input) {
+                Ok(())
+            } else {
+                Err("El nombre solo puede contener letras, números, - o _")
+            }
+        })
+        .interact_text()
+        .unwrap();
+
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("Pick a project to start")
         .default(0)
@@ -43,12 +59,21 @@ fn main() {
 
     let option_idx = selection as u8;
 
-    println!("{}", option_idx);
+    if proj_name.trim().is_empty() {
+        proj_name = match option_idx {
+            0 => "nodeJS_template".to_string(),
+            1 => "React_template".to_string(),
+            2 => "Svelte_template".to_string(),
+            3 => "Astro_template".to_string(),
+            _ => panic!("Opción inválida"),
+        }
+    }
+
     match option_idx {
-        0 => cli::new_nodejs(),
-        1 => cli::new_react(),
-        2 => cli::new_svelte(),
-        3 => cli::new_astro(),
+        0 => cli::new_nodejs(Some(&proj_name)),
+        1 => cli::new_react(Some(&proj_name)),
+        2 => cli::new_svelte(Some(&proj_name)),
+        3 => cli::new_astro(Some(&proj_name)),
         _ => {
             panic!("wtf bro this ain't any shi");
         }
